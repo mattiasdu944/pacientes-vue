@@ -25,8 +25,11 @@ import ListadoPacientes from "./components/ListadoPacientes";
 
 // import { db } from "@/firebase/firebase";
 
+import { doc, setDoc, collection, query, where, getDocs  } from "firebase/firestore"; 
+import { db } from "@/firebase/firebase";
+
 export default {
-  name: "App",
+  name: 'App',
 
   components: {
     ListadoPacientes,
@@ -41,7 +44,23 @@ export default {
         lastname: " ",
         email: "",
         date: "",
-        sintoma: "",
+        sintoma: "",}
+      }
+  },
+
+  mounted(){
+    this.getPacientes()
+  },
+
+  data(){
+    return{
+      pacientes : [],
+      paciente : {
+        name: '',
+        lastname : ' ',
+        email : '',
+        date: '',
+        sintoma: '',
       },
       error: false,
 
@@ -49,28 +68,35 @@ export default {
   },
 
   methods: {
-    handleSubmit() {
-      const { name, lastname, email, date, sintoma } = this.paciente;
-
-      if (
-        name.trim() === "" ||
-        lastname.trim() === "" ||
-        email.trim() === "" ||
-        date.trim() === "" ||
-        sintoma.trim() === ""
-      ) {
-        this.error = true;
+    async handleSubmit(){
+      const { name, lastname, email, date, sintoma } = this.paciente
+      if( name.trim() === '' || lastname.trim() === '' || email.trim() === '' || date.trim() === '' || sintoma.trim() === ''){
+        this.error = true
         return;
-      }
-      this.pacientes.push({ name, lastname, email, date, sintoma });
-      this.error = false;
+      } 
+      await setDoc(doc(db, "paciente", this.generarId()), { name, lastname, email, date, sintoma });        
+      this.pacientes.push( {name, lastname, email, date, sintoma });
+      this.error = false
       this.paciente = {
-        name: "",
-        lastname: " ",
-        email: "",
-        date: "",
-        sintoma: "",
-      };
+        name: '',
+        lastname : ' ',
+        email : '',
+        date: '',
+        sintoma: '',
+      }
+    },
+
+    async getPacientes(){
+      const q = query(collection(db, "paciente"));
+
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        console.log(this.pacientes.push(doc.data()));
+      });
+    },
+
+    generarId(){ 
+      return Math.random().toString(30).substring(2);             
     },
   },
 };
