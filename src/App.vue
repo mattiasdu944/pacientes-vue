@@ -7,12 +7,12 @@
 
   <div class="md:flex gap-3 container m-auto mt-5">
 
-    <div class="md:w-7/12">
-      <form-paciente/>
+    <div class="md:w-7/12 px-3 md:p-0">
+      <form-paciente :error="error" :paciente="paciente" @submit-form="handleSubmit"/>
     </div>
     
     <div class="md:w-5/12">
-      <listado-pacientes/>
+      <listado-pacientes :pacientes="pacientes"/>
     </div>
 
 
@@ -30,6 +30,42 @@ export default {
   components: {
     ListadoPacientes,
     FormPaciente  
+  },
+
+  data(){
+    return{
+      pacientes : [],
+      paciente : {
+        name: '',
+        lastname : ' ',
+        email : '',
+        date: '',
+        sintoma: '',
+      },
+
+      error : false
+
+    }
+  },
+
+  methods:{
+    handleSubmit(){
+      const { name, lastname, email, date, sintoma } = this.paciente
+
+      if( name.trim() === '' || lastname.trim() === '' || email.trim() === '' || date.trim() === '' || sintoma.trim() === ''){
+        this.error = true
+        return;
+      } 
+      this.pacientes.push( {name, lastname, email, date, sintoma });
+      this.error = false
+      this.paciente = {
+        name: '',
+        lastname : ' ',
+        email : '',
+        date: '',
+        sintoma: '',
+      }
+    }
   }
 }
 </script>

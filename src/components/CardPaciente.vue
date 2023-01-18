@@ -4,31 +4,31 @@
         <p class="font-bold mb-3 text-gray-700 uppercase">
             Nombre: 
             <span class="font-normal normal-case">
-                Firulais
+                {{ paciente.name }}
             </span>
         </p>
         <p class="font-bold mb-3 text-gray-700 uppercase">
-            Popietario: 
+            Apellidos: 
             <span class="font-normal normal-case">
-                Mattias Alexandre 
+                {{ paciente.lastname }}
             </span>
         </p>
         <p class="font-bold mb-3 text-gray-700 uppercase">
             Email: 
             <span class="font-normal normal-case">
-                duartemattias4@gmail.com
+                {{ paciente.email }}
             </span>
         </p>
         <p class="font-bold mb-3 text-gray-700 uppercase">
             Fecha Alta:
              <span class="font-normal normal-case">
-                2022-06-16
+                {{ paciente.date }}
             </span>
         </p>
         <p class="font-bold mb-3 text-gray-700 uppercase">
             Sintomas: 
             <span class="font-normal normal-case">
-                No duerme mucho y vomita
+                {{ paciente.sintoma }}
             </span>
         </p>
 
@@ -45,6 +45,7 @@
 
 <script>
 export default {
+    props:[ 'paciente' ]
 
 }
 </script>
