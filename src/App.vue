@@ -74,7 +74,7 @@ export default {
         this.error = true
         return;
       } 
-      await setDoc(doc(db, "paciente", this.generarId()), { name, lastname, email, date, sintoma });        
+      await setDoc(doc(db, "pacientes", this.generarId()), { name, lastname, email, date, sintoma });        
       this.pacientes.push( {name, lastname, email, date, sintoma });
       this.error = false
       this.paciente = {
@@ -87,7 +87,7 @@ export default {
     },
 
     async getPacientes(){
-      const q = query(collection(db, "paciente"));
+      const q = query(collection(db, "pacientes"));
 
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
